@@ -1,16 +1,15 @@
 document.getElementById('myForm').addEventListener('submit', handleSubmit);
 document.getElementById('image').addEventListener('change', handleImage);
 
-
 let myImage = null;
 
 function handleImage(e) {
     myImage = e.target.files[0];
-    console.log(myImage);
-};
+    //console.log(myImage);
+}
 
 function handleSubmit(e) {
-    e.perventDefault();
+    e.preventDefault();
     let user = document.getElementById('user').value;
     let content = document.getElementById('content').value;
     let form_data = new FormData();
@@ -18,8 +17,13 @@ function handleSubmit(e) {
     form_data.append('content', content);
     form_data.append('image', myImage);
 
-
-    for (var [key, value] of form_data.entries()) {
-        console.log(key, ': ', value);
-    };
-};
+    // for (var [key, value] of form_data.entries()) {
+    //     console.log(key, ": ", value);
+    // }
+    axios.put("http://127.0.0.1:8000/status/retrieve/9/", form_data, {
+        header: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+        .then(response => console.log(response))
+}
